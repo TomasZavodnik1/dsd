@@ -371,10 +371,10 @@
 			};
 
 
-                       lan4: port@3 {
+                       port@3 {
                           reg = <3>;
                           label = "cpu";
-                         ethernet = <&egnet>;
+                         ethernet = <&eqos>;
                          fixed-link {
                              speed = <1000>;
                              full-duplex;
