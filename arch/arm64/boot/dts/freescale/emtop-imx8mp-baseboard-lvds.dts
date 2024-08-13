@@ -1,0 +1,14 @@
+
+#include "emtop-imx8mp-baseboard-hdmi.dts"
+
+&hdmi {
+	status = "disabled";
+};
+
+&ldb {
+	status = "okay";
+};
+
+&lvds_backlight_pwm {
+	status = "okay";
+};

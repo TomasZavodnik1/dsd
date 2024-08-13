@@ -1,0 +1,18 @@
+
+#include "emtop-imx8mp-baseboard-hdmi.dts"
+
+&hdmi {
+	status = "disabled";
+};
+
+&mipi_dsi {
+	status = "okay";
+};
+
+&panel_mipi_70t {
+	status = "okay";
+};
+
+&goodix {
+	status = "okay";
+};

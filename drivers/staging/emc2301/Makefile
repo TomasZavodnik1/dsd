@@ -1,0 +1,1 @@
+obj-$(CONFIG_SENSORS_EMC2301) := emc2301.o

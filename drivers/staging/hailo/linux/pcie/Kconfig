@@ -1,0 +1,5 @@
+config STAGING_HAILO_DRIVER
+	tristate "Hailo AI PCIE driver"
+	depends on I2C
+	help
+	  Hailo AI PCIE driver

@@ -1,0 +1,329 @@
+#include "emtop-imx8mp-baseboard-hdmi.dts"
+
+&pinctrl_hog {
+	fsl,pins = <
+		MX8MP_IOMUXC_ECSPI2_SCLK__GPIO5_IO10		0x19
+		MX8MP_IOMUXC_ECSPI2_MOSI__GPIO5_IO11		0x19
+		MX8MP_IOMUXC_ECSPI2_MISO__GPIO5_IO12		0x19
+		MX8MP_IOMUXC_ECSPI2_SS0__GPIO5_IO13		0x19
+	>;
+};
+
+/ {
+	model = "NXP i.MX8MPlus emtop-CM 1.5 IO board";
+	compatible = "fsl,imx8mp-evk", "fsl,imx8mp";
+
+	aliases {
+		rtc0 = &snvs_rtc;
+		rtc1 = &pcf85063;
+	};
+
+	gpio-leds {
+		act_led: sys {
+			label = "led0";
+			linux,default-trigger = "mmc0";
+			gpios = <&gpio3 16 GPIO_ACTIVE_HIGH>;
+		};
+
+                /* pwr_led pin (95) is "reserved" in Emtop SOM-IMX8 */
+
+		sta_led: sta {
+			label = "led1";
+			linux,default-trigger = "gpio";
+			gpios = <&gpio1 6 GPIO_ACTIVE_HIGH>;
+		};
+
+		ap_led: ap {
+			label = "led2";
+			linux,default-trigger = "gpio";
+			gpios = <&gpio4 31 GPIO_ACTIVE_HIGH>;
+		};
+	};
+};
+
+&gpio1 { /* gpiochip0 */
+	gpio-line-names =
+		/* 0*/ "unnamed",
+		/* 1*/ "unnamed",
+		/* 2*/ "unnamed",
+		/* 3*/ "unnamed",
+		/* 4*/ "unnamed",
+		/* 5*/ "unnamed",
+		/* 6*/ "unnamed",
+		/* 7*/ "mpcie3_gpio",
+		/* 8*/ "unnamed",
+		/* 9*/ "unnamed",
+		/*10*/ "unnamed",
+		/*11*/ "unnamed",
+		/*12*/ "unnamed",
+		/*13*/ "unnamed",
+		/*14*/ "unnamed",
+		/*15*/ "unnamed",
+		/*16*/ "unnamed",
+		/*17*/ "unnamed",
+		/*18*/ "unnamed",
+		/*19*/ "unnamed",
+		/*20*/ "unnamed",
+		/*21*/ "unnamed",
+		/*22*/ "unnamed",
+		/*23*/ "unnamed",
+		/*24*/ "unnamed",
+		/*25*/ "unnamed",
+		/*26*/ "unnamed",
+		/*27*/ "unnamed",
+		/*28*/ "unnamed",
+		/*29*/ "unnamed",
+		/*30*/ "unnamed",
+		/*31*/ "unnamed";
+};
+
+&gpio2 { /* gpiochip1 */
+	gpio-line-names =
+		/* 0*/ "unnamed",
+		/* 1*/ "unnamed",
+		/* 2*/ "unnamed",
+		/* 3*/ "unnamed",
+		/* 4*/ "unnamed",
+		/* 5*/ "unnamed",
+		/* 6*/ "unnamed",
+		/* 7*/ "unnamed",
+		/* 8*/ "unnamed",
+		/* 9*/ "unnamed",
+		/*10*/ "unnamed",
+		/*11*/ "unnamed",
+		/*12*/ "unnamed",
+		/*13*/ "unnamed",
+		/*14*/ "unnamed",
+		/*15*/ "unnamed",
+		/*16*/ "unnamed",
+		/*17*/ "unnamed",
+		/*18*/ "unnamed",
+		/*19*/ "unnamed",
+		/*20*/ "nrf52_coex2",
+		/*21*/ "unnamed",
+		/*22*/ "unnamed",
+		/*23*/ "unnamed",
+		/*24*/ "unnamed",
+		/*25*/ "unnamed",
+		/*26*/ "unnamed",
+		/*27*/ "unnamed",
+		/*28*/ "unnamed",
+		/*29*/ "unnamed",
+		/*30*/ "unnamed",
+		/*31*/ "unnamed";
+};
+
+&gpio3 { /* gpiochip2 */
+	gpio-line-names =
+		/* 0*/ "unnamed",
+		/* 1*/ "unnamed",
+		/* 2*/ "unnamed",
+		/* 3*/ "unnamed",
+		/* 4*/ "unnamed",
+		/* 5*/ "unnamed",
+		/* 6*/ "unnamed",
+		/* 7*/ "unnamed",
+		/* 8*/ "unnamed",
+		/* 9*/ "unnamed",
+		/*10*/ "unnamed",
+		/*11*/ "unnamed",
+		/*12*/ "unnamed",
+		/*13*/ "unnamed",
+		/*14*/ "unnamed",
+		/*15*/ "unnamed",
+		/*16*/ "unnamed",
+		/*17*/ "unnamed",
+		/*18*/ "unnamed",
+		/*19*/ "unnamed",
+		/*20*/ "unnamed",
+		/*21*/ "unnamed",
+		/*22*/ "unnamed",
+		/*23*/ "unnamed",
+		/*24*/ "unnamed",
+		/*25*/ "unnamed",
+		/*26*/ "unnamed",
+		/*27*/ "unnamed",
+		/*28*/ "unnamed",
+		/*29*/ "unnamed",
+		/*30*/ "unnamed",
+		/*31*/ "unnamed";
+};
+
+&gpio4 { /* gpiochip3 */
+	gpio-line-names =
+		/* 0*/ "unnamed",
+		/* 1*/ "unnamed",
+		/* 2*/ "unnamed",
+		/* 3*/ "unnamed",
+		/* 4*/ "unnamed",
+		/* 5*/ "mpcie5_coex2",
+		/* 6*/ "unnamed",
+		/* 7*/ "unnamed",
+		/* 8*/ "unnamed",
+		/* 9*/ "unnamed",
+		/*10*/ "unnamed",
+		/*11*/ "unnamed",
+		/*12*/ "unnamed",
+		/*13*/ "unnamed",
+		/*14*/ "unnamed",
+		/*15*/ "unnamed",
+		/*16*/ "unnamed",
+		/*17*/ "unnamed",
+		/*18*/ "unnamed",
+		/*19*/ "unnamed",
+		/*20*/ "unnamed",
+		/*21*/ "unnamed",
+		/*22*/ "mux_2",
+		/*23*/ "unnamed",
+		/*24*/ "unnamed",
+		/*25*/ "unnamed",
+		/*26*/ "unnamed",
+		/*27*/ "mpcie3_coex1",
+		/*28*/ "nrf52_coex1",
+		/*29*/ "mux_3",
+		/*30*/ "nrf53_coex1",
+		/*31*/ "aux_ioexp_int";
+};
+
+&gpio5 { /* gpiochip4 */
+	gpio-line-names =
+		/* 0*/ "mpcie3_spi_rst",
+		/* 1*/ "nrf53_coex2",
+		/* 2*/ "mpcie5_coex1",
+		/* 3*/ "unnamed",
+		/* 4*/ "unnamed",
+		/* 5*/ "unnamed",
+		/* 6*/ "unnamed",
+		/* 7*/ "unnamed",
+		/* 8*/ "unnamed",
+		/* 9*/ "unnamed",
+		/*10*/ "unnamed",
+		/*11*/ "unnamed",
+		/*12*/ "unnamed",
+		/*13*/ "unnamed",
+		/*14*/ "unnamed",
+		/*15*/ "unnamed",
+		/*16*/ "aux_spi_gpio",
+		/*17*/ "aux_spi_rst",
+		/*18*/ "unnamed",
+		/*19*/ "unnamed",
+		/*20*/ "unnamed",
+		/*21*/ "unnamed",
+		/*22*/ "unnamed",
+		/*23*/ "unnamed",
+		/*24*/ "unnamed",
+		/*25*/ "unnamed",
+		/*26*/ "unnamed",
+		/*27*/ "unnamed",
+		/*28*/ "dcube_rpi_io1",
+		/*29*/ "mux_1",
+		/*30*/ "unnamed",
+		/*31*/ "unnamed";
+};
+
+/* ### CM4IO Based Comms Devices ### */
+&i2c5 {
+	/* CM1.5 */
+	ina226@41 {
+		compatible = "ti,ina226";
+		reg = <0x41>;
+		shunt-resistor = <5000>;
+	};
+
+	/* INA_VCC_FEM */
+	ina231@45 {
+		compatible = "ti,ina231";
+		reg = <0x45>;
+		shunt-resistor = <33000>;
+	};
+
+	/* INA_VCC_3V3 */
+	ina231@44 {
+		compatible = "ti,ina231";
+		reg = <0x44>;
+		shunt-resistor = <100000>;
+	};
+};
+
+&i2c3 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_i2c3>;
+	status = "okay";
+
+	pcf85063: pcf85063@51 {
+		compatible = "nxp,pcf85063";
+		reg = <0x51>;
+	};
+
+	fanctrl: emc2305@4d {
+		compatible = "microchip,emc2305";
+		reg = <0x4d>;
+
+		#cooling-cells = <0x02>;
+
+		fan@0 {
+			min-rpm = /bits/ 16 <50>;
+			max-rpm = /bits/ 16 <5500>;
+		};
+	};
+
+	tmp100@49 {
+		compatible = "ti,tmp100";
+		reg = <0x49>;
+	};
+
+	/* ina231 is also used for ina209 */
+	ina231@40 {
+		compatible = "ti,ina231";
+		reg = <0x40>;
+		shunt-resistor = <33000>;
+	};
+
+	/* ina231 is also used for ina209 */
+	ina231@45 {
+		compatible = "ti,ina231";
+		reg = <0x45>;
+		shunt-resistor = <33000>;
+	};
+
+	/* available in Sleeve wing board */
+	tmp100@4f {
+		compatible = "ti,tmp100";
+		reg = <0x4f>;
+	};
+
+	/* CM1.5 */
+	expander: gpio@24 {
+		compatible = "nxp,pca9570";
+		reg = <0x24>;
+		gpio-controller;
+		#gpio-cells = <2>;
+		gpio-line-names = "poweroff",
+				"j701",
+				"j702",
+				"nrf52_rst";
+	};
+};
+
+/*
+ * pins of spi2 test as gpio */
+&ecspi2 {
+	status = "disabled";
+};
+
+&hdmi {
+	status = "disabled";
+};
+
+&mipi_dsi {
+	status = "disabled";
+};
+
+&panel_mipi_70t {
+	status = "disabled";
+};
+
+&goodix {
+	status = "disabled";
+};
+

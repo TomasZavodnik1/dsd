@@ -1,0 +1,33 @@
+
+#include "emtop-imx8mp-baseboard-hdmi.dts"
+
+&pinctrl_hog {
+	fsl,pins = <
+		MX8MP_IOMUXC_ECSPI2_SCLK__GPIO5_IO10		0x19
+		MX8MP_IOMUXC_ECSPI2_MOSI__GPIO5_IO11		0x19
+		MX8MP_IOMUXC_ECSPI2_MISO__GPIO5_IO12		0x19
+		MX8MP_IOMUXC_ECSPI2_SS0__GPIO5_IO13			0x19
+	>;
+};
+
+/*
+ * pins of spi2 test as gpio */
+&ecspi2 {
+	status = "disabled";
+};
+
+&hdmi {
+	status = "okay";
+};
+
+&mipi_dsi {
+	status = "okay";
+};
+
+&panel_mipi_70t {
+	status = "okay";
+};
+
+&goodix {
+	status = "okay";
+};
