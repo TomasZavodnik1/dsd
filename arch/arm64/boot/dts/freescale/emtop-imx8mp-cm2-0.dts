@@ -374,12 +374,12 @@
                        port@3 {
                           reg = <3>;
                           label = "cpu";
-                         ethernet = <&eqos>;
-                         fixed-link {
+                          ethernet = <&eqos>;
+                          fixed-link {
                              speed = <1000>;
                              full-duplex;
                             };
-                         };
+                          };
 		};
 	};
 
