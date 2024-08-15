@@ -370,16 +370,16 @@
 				local-mac-address = [00 00 00 00 00 00];
 			};
 
+		     port@3 {
+		        reg = <3>;
+		        label = "cpu";
+		        ethernet = <&eqos>;
 
-                       port@3 {
-                          reg = <3>;
-                          label = "cpu";
-                          ethernet = <&fec1>;
-                          fixed-link {
-                             speed = <1000>;
-                             full-duplex;
-                            };
-                          };
+		        fixed-link {
+		          speed = <1000>;
+		          full-duplex;
+		        };
+		     };
 		};
 	};
 
@@ -514,4 +514,3 @@
 &goodix {
 	status = "disabled";
 };
-
