@@ -374,8 +374,9 @@
 				reg = <3>;
 				label = "cpu";
 				ethernet = <&eqos>;
+				phy-mode = "rgmii"
 				fixed-link {
-		          	speed = <1000>;
+					speed = <1000>;
 					full-duplex;
 				};
 			};

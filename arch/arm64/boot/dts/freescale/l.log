@@ -1,9 +1,9 @@
 diff --git a/emtop-imx8mp-cm2-0.dts b/emtop-imx8mp-cm2-0.dts
 new file mode 100644
-index 000000000..9e1f1ae2a
+index 000000000..95bd90e2f
 --- /dev/null
 +++ b/emtop-imx8mp-cm2-0.dts
-@@ -0,0 +1,515 @@
+@@ -0,0 +1,516 @@
 +#include "emtop-imx8mp-baseboard-hdmi.dts"
 +
 +&pinctrl_hog {
@@ -380,8 +380,9 @@ index 000000000..9e1f1ae2a
 +				reg = <3>;
 +				label = "cpu";
 +				ethernet = <&eqos>;
++				phy-mode = "rgmii"
 +				fixed-link {
-+		          	speed = <1000>;
++					speed = <1000>;
 +					full-duplex;
 +				};
 +			};
