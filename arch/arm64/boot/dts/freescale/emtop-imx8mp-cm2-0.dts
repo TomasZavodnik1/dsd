@@ -1,517 +1,1853 @@
-#include "emtop-imx8mp-baseboard-hdmi.dts"
+From 744ea1b546296f05066d22bab6a3d9e15ab507d7 Mon Sep 17 00:00:00 2001
+From: Govind Singh <govind@ssrc.tii.ae>
+Date: Wed, 26 Jun 2024 13:25:02 +0400
+Subject: [PATCH 18/23] Add dedicated emtop device dts
 
-&pinctrl_hog {
-	fsl,pins = <
-		MX8MP_IOMUXC_ECSPI2_SCLK__GPIO5_IO10		0x19
-		MX8MP_IOMUXC_ECSPI2_MOSI__GPIO5_IO11		0x19
-		MX8MP_IOMUXC_ECSPI2_MISO__GPIO5_IO12		0x19
-		MX8MP_IOMUXC_ECSPI2_SS0__GPIO5_IO13		0x19
-	>;
-};
+Signed-off-by: Govind Singh <govind@ssrc.tii.ae>
+---
+ arch/arm64/boot/dts/freescale/Makefile        |   7 +-
+ .../boot/dts/freescale/emtop-imx8mp-ccb3.dts  | 544 ++++++++++++++++++
+ .../boot/dts/freescale/emtop-imx8mp-cm1-5.dts | 329 +++++++++++
+ .../boot/dts/freescale/emtop-imx8mp-cm2-0.dts | 506 ++++++++++++++++
+ .../boot/dts/freescale/emtop-imx8mp-csl.dts   | 405 +++++++++++++
+ 5 files changed, 1789 insertions(+), 2 deletions(-)
+ create mode 100644 arch/arm64/boot/dts/freescale/emtop-imx8mp-ccb3.dts
+ create mode 100644 arch/arm64/boot/dts/freescale/emtop-imx8mp-cm1-5.dts
+ create mode 100644 arch/arm64/boot/dts/freescale/emtop-imx8mp-cm2-0.dts
+ create mode 100644 arch/arm64/boot/dts/freescale/emtop-imx8mp-csl.dts
 
-/ {
-	model = "NXP i.MX8MPlus emtop-CM 2.0 IO board";
-	compatible = "fsl,imx8mp-evk", "fsl,imx8mp";
-
-	aliases {
-		rtc0 = &snvs_rtc;
-		rtc1 = &pcf85063;
-	};
-
-	gpio-leds {
-		act_led: sys {
-			label = "led0";
-			linux,default-trigger = "mmc0";
-			gpios = <&gpio3 16 GPIO_ACTIVE_HIGH>;
-		};
-
-                /* pwr_led pin (95) is "reserved" in Emtop SOM-IMX8 */
-
-		sta_led: sta {
-			label = "led1";
-			linux,default-trigger = "gpio";
-			gpios = <&gpio1 6 GPIO_ACTIVE_HIGH>;
-		};
-
-		ap_led: ap {
-			label = "led2";
-			linux,default-trigger = "gpio";
-			gpios = <&gpio4 31 GPIO_ACTIVE_HIGH>;
-		};
-	};
-};
-
-&gpio1 { /* gpiochip0 */
-	gpio-line-names =
-		/* 0*/ "unnamed",
-		/* 1*/ "unnamed",
-		/* 2*/ "unnamed",
-		/* 3*/ "unnamed",
-		/* 4*/ "unnamed",
-		/* 5*/ "unnamed",
-		/* 6*/ "unnamed",
-		/* 7*/ "mpcie3_gpio",
-		/* 8*/ "unnamed",
-		/* 9*/ "unnamed",
-		/*10*/ "unnamed",
-		/*11*/ "unnamed",
-		/*12*/ "unnamed",
-		/*13*/ "unnamed",
-		/*14*/ "unnamed",
-		/*15*/ "unnamed",
-		/*16*/ "unnamed",
-		/*17*/ "unnamed",
-		/*18*/ "unnamed",
-		/*19*/ "unnamed",
-		/*20*/ "unnamed",
-		/*21*/ "unnamed",
-		/*22*/ "unnamed",
-		/*23*/ "unnamed",
-		/*24*/ "unnamed",
-		/*25*/ "unnamed",
-		/*26*/ "unnamed",
-		/*27*/ "unnamed",
-		/*28*/ "unnamed",
-		/*29*/ "unnamed",
-		/*30*/ "unnamed",
-		/*31*/ "unnamed";
-};
-
-&gpio2 { /* gpiochip1 */
-	gpio-line-names =
-		/* 0*/ "unnamed",
-		/* 1*/ "unnamed",
-		/* 2*/ "unnamed",
-		/* 3*/ "unnamed",
-		/* 4*/ "unnamed",
-		/* 5*/ "unnamed",
-		/* 6*/ "unnamed",
-		/* 7*/ "unnamed",
-		/* 8*/ "unnamed",
-		/* 9*/ "unnamed",
-		/*10*/ "unnamed",
-		/*11*/ "unnamed",
-		/*12*/ "unnamed",
-		/*13*/ "unnamed",
-		/*14*/ "unnamed",
-		/*15*/ "unnamed",
-		/*16*/ "unnamed",
-		/*17*/ "unnamed",
-		/*18*/ "unnamed",
-		/*19*/ "unnamed",
-		/*20*/ "nrf52_coex2",
-		/*21*/ "unnamed",
-		/*22*/ "unnamed",
-		/*23*/ "unnamed",
-		/*24*/ "unnamed",
-		/*25*/ "unnamed",
-		/*26*/ "unnamed",
-		/*27*/ "unnamed",
-		/*28*/ "unnamed",
-		/*29*/ "unnamed",
-		/*30*/ "unnamed",
-		/*31*/ "unnamed";
-};
-
-&gpio3 { /* gpiochip2 */
-	gpio-line-names =
-		/* 0*/ "unnamed",
-		/* 1*/ "unnamed",
-		/* 2*/ "unnamed",
-		/* 3*/ "unnamed",
-		/* 4*/ "unnamed",
-		/* 5*/ "unnamed",
-		/* 6*/ "unnamed",
-		/* 7*/ "unnamed",
-		/* 8*/ "unnamed",
-		/* 9*/ "unnamed",
-		/*10*/ "unnamed",
-		/*11*/ "unnamed",
-		/*12*/ "unnamed",
-		/*13*/ "unnamed",
-		/*14*/ "unnamed",
-		/*15*/ "unnamed",
-		/*16*/ "unnamed",
-		/*17*/ "unnamed",
-		/*18*/ "unnamed",
-		/*19*/ "unnamed",
-		/*20*/ "unnamed",
-		/*21*/ "unnamed",
-		/*22*/ "unnamed",
-		/*23*/ "unnamed",
-		/*24*/ "unnamed",
-		/*25*/ "unnamed",
-		/*26*/ "unnamed",
-		/*27*/ "unnamed",
-		/*28*/ "unnamed",
-		/*29*/ "unnamed",
-		/*30*/ "unnamed",
-		/*31*/ "unnamed";
-};
-
-&gpio4 { /* gpiochip3 */
-	gpio-line-names =
-		/* 0*/ "unnamed",
-		/* 1*/ "unnamed",
-		/* 2*/ "unnamed",
-		/* 3*/ "unnamed",
-		/* 4*/ "unnamed",
-		/* 5*/ "mpcie5_coex2",
-		/* 6*/ "unnamed",
-		/* 7*/ "unnamed",
-		/* 8*/ "unnamed",
-		/* 9*/ "unnamed",
-		/*10*/ "unnamed",
-		/*11*/ "unnamed",
-		/*12*/ "unnamed",
-		/*13*/ "unnamed",
-		/*14*/ "unnamed",
-		/*15*/ "unnamed",
-		/*16*/ "unnamed",
-		/*17*/ "unnamed",
-		/*18*/ "unnamed",
-		/*19*/ "unnamed",
-		/*20*/ "unnamed",
-		/*21*/ "unnamed",
-		/*22*/ "mux_2",
-		/*23*/ "unnamed",
-		/*24*/ "unnamed",
-		/*25*/ "unnamed",
-		/*26*/ "unnamed",
-		/*27*/ "mpcie3_coex1",
-		/*28*/ "nrf52_coex1",
-		/*29*/ "mux_3",
-		/*30*/ "nrf53_coex1",
-		/*31*/ "aux_ioexp_int";
-};
-
-&gpio5 { /* gpiochip4 */
-	gpio-line-names =
-		/* 0*/ "mpcie3_spi_rst",
-		/* 1*/ "nrf53_coex2",
-		/* 2*/ "mpcie5_coex1",
-		/* 3*/ "unnamed",
-		/* 4*/ "unnamed",
-		/* 5*/ "unnamed",
-		/* 6*/ "unnamed",
-		/* 7*/ "unnamed",
-		/* 8*/ "unnamed",
-		/* 9*/ "unnamed",
-		/*10*/ "unnamed",
-		/*11*/ "unnamed",
-		/*12*/ "unnamed",
-		/*13*/ "unnamed",
-		/*14*/ "unnamed",
-		/*15*/ "unnamed",
-		/*16*/ "aux_spi_gpio",
-		/*17*/ "aux_spi_rst",
-		/*18*/ "unnamed",
-		/*19*/ "unnamed",
-		/*20*/ "unnamed",
-		/*21*/ "unnamed",
-		/*22*/ "unnamed",
-		/*23*/ "unnamed",
-		/*24*/ "unnamed",
-		/*25*/ "unnamed",
-		/*26*/ "unnamed",
-		/*27*/ "unnamed",
-		/*28*/ "dcube_rpi_io1",
-		/*29*/ "mux_1",
-		/*30*/ "unnamed",
-		/*31*/ "unnamed";
-};
-
-/* ### CM4IO Based Comms Devices ### */
-&i2c5 {
-	/* CM2.0 */
-	expander_3: pcal6408@21 {
-		compatible = "nxp,pcal6408";
-		reg = <0x21>;
-		gpio-controller;
-		/* TODO interrupt-parent = <&gpio>; */
-		/* TODO interrupts = <19 IRQ_TYPE_EDGE_FALLING>; */
-		#gpio-cells = <2>;
-		gpio-line-names = "aux_io_0_button",
-				"aux_io_1_button",
-				"aux_io_2_button",
-				"aux_io_3",
-				"aux_io_4",
-				"aux_test_point",
-				"eth_int",
-				"rpi_pwr_rgb";
-	};
-
-	/* CM2.0 UI board */
-	tmp100@49 {
-		compatible = "ti,tmp100";
-		reg = <0x49>;
-	};
-
-};
-
-&i2c3 {
-	pinctrl-names = "default";
-	pinctrl-0 = <&pinctrl_i2c3>;
-	status = "okay";
-
-	pcf85063: pcf85063@51 {
-		compatible = "nxp,pcf85063";
-		reg = <0x51>;
-	};
-
-	fanctrl: emc2305@4d {
-		compatible = "microchip,emc2305";
-		reg = <0x4d>;
-
-		#cooling-cells = <0x02>;
-
-		fan@0 {
-			min-rpm = /bits/ 16 <50>;
-			max-rpm = /bits/ 16 <5500>;
-		};
-	};
-
-	tmp100@49 {
-		compatible = "ti,tmp100";
-		reg = <0x49>;
-	};
-
-	/* ina231 is also used for ina209 */
-	ina231@40 {
-		compatible = "ti,ina231";
-		reg = <0x40>;
-		shunt-resistor = <33000>;
-	};
-
-	/* ina231 is also used for ina209 */
-	ina231@45 {
-		compatible = "ti,ina231";
-		reg = <0x45>;
-		shunt-resistor = <33000>;
-	};
-
-	/* CM2.0 */
-	power_supply@41 {
-		compatible = "ti,ina226";
-		reg = <0x41>;
-		shunt-resistor = <5000>;
-	};
-
-	nrf@44 {
-		compatible = "ti,ina231";
-		reg = <0x44>;
-		shunt-resistor = <100000>;
-	};
-
-	mpcie3@46 {
-		compatible = "ti,ina231";
-		reg = <0x46>;
-		shunt-resistor = <33000>;
-	};
-
-	expander_1: pcal6408@21 {
-		compatible = "nxp,pcal6408";
-		reg = <0x21>;
-		gpio-controller;
-		#gpio-cells = <2>;
-		gpio-line-names = "poweroff",
-				"test_point",
-				"nrf52_dfu_mode",
-				"nrf53_dfu_mode",
-				"usb3_pwr_en",
-				"pcb_ver_1",
-				"pcb_ver_2",
-				"pcb_ver_3";
-	};
-
-	expander_2: pcal6408@20 {
-		compatible = "nxp,pcal6408";
-		reg = <0x20>;
-		gpio-controller;
-		#gpio-cells = <2>;
-		gpio-line-names = "nrf_usb_hub_reset",
-				"nrf_uart_hub_reset",
-				"nrf52_reset",
-				"nrf52_en",
-				"nrf53_reset",
-				"nrf53_en",
-				"eth_switch_reset",
-				"aux_board_det";
-		interrupt-controller; /* mark the node as interrupt-controller */
-		#interrupt-cells = <2>; /* pin number and flags */
-		interrupts = <19 IRQ_TYPE_EDGE_FALLING>;
-	};
-
-	switch: switch@5f {
-		compatible = "microchip,ksz9477";
-		reg = <0x5f>;
-		status = "okay";
-		/* interrupts-parent = <&expander_2>; todo
-		interrupts = <6 IRQ_TYPE_EDGE_FALLING>; */
-		ports {
-			#address-cells = <1>;
-			#size-cells = <0>;
-
-			lan3: port@0 {
-				reg = <0>;
-				label = "lan1";
-				local-mac-address = [00 00 00 00 00 00];
-			};
-
-			lan2: port@1 {
-				reg = <1>;
-				label = "lan2";
-				local-mac-address = [00 00 00 00 00 00];
-			};
-
-			lan1: port@2 {
-				reg = <2>;
-				label = "lan3";
-				local-mac-address = [00 00 00 00 00 00];
-			};
-
-			port@3 {
-				reg = <3>;
-				label = "cpu";
-				ethernet = <&eqos>;
-				phy-mode = "rgmii-id"
-				fixed-link {
-					speed = <1000>;
-					full-duplex;
-				};
-			};
-		};
-	};
-
-	bme280: bme280@76 {
-		compatible = "bosch,bme280";
-		reg = <0x76>;
-		status = "okay";
-	};
-
-	usb2517i@2c {
-		compatible = "microchip,usb2517i";
-		reg = <0x2c>;
-	};
-
-	/* rx8025t has to be disabled here to override its definition in emtop-imx8mp-baseboard-hdmi.dts.
-	   Otherwise probing lp5523 will fail, because they share same I2C slave address 0x32. */
-	rx8025t: rtc@32 {
-		status = "disabled";
-	};
-
-	lp5523: lp5523@32 {
-		#address-cells = <1>;
-		#size-cells = <0>;
-		compatible = "ti,lp55231";
-		label = "rgb_leds";
-		reg = <0x32>;
-		clock-mode = /bits/ 8 <0>; /* LP55XX_CLOCK_AUTO */
-
-		multi-led@0 {
-			#address-cells = <1>;
-			#size-cells = <0>;
-			reg = <0x0>;
-			color = <9>; /* LED_COLOR_ID_RGB> */
-
-			led@0 {
-				led-cur = /bits/ 8 <12>;
-				max-cur = /bits/ 8 <15>;
-				reg = <0x0>;
-				color = <2>; /* LED_COLOR_ID_GREEN */
-			};
-
-			led@1 {
-				max-cur = /bits/ 8 <15>;
-				led-cur = /bits/ 8 <12>;
-				reg = <0x1>;
-				color = <3>; /* LED_COLOR_ID_BLUE */
-			};
-
-			led@6 {
-				led-cur = /bits/ 8 <12>;
-				max-cur = /bits/ 8 <15>;
-				reg = <0x6>;
-				color = <1>; /* LED_COLOR_ID_RED */
-			};
-		};
-		multi-led@1 {
-			#address-cells = <1>;
-			#size-cells = <0>;
-			reg = <0x1>;
-			color = <9>; /* LED_COLOR_ID_RGB> */
-
-			led@2 {
-				led-cur = /bits/ 8 <12>;
-				max-cur = /bits/ 8 <15>;
-				reg = <0x2>;
-				color = <2>; /* LED_COLOR_ID_GREEN */
-			};
-
-			led@3 {
-				led-cur = /bits/ 8 <12>;
-				max-cur = /bits/ 8 <15>;
-				reg = <0x3>;
-				color = <3>; /* LED_COLOR_ID_BLUE */
-			};
-
-			led@7 {
-				led-cur = /bits/ 8 <12>;
-				max-cur = /bits/ 8 <15>;
-				reg = <0x7>;
-				color = <1>; /* LED_COLOR_ID_RED */
-			};
-		};
-		multi-led@2 {
-			#address-cells = <1>;
-			#size-cells = <0>;
-			reg = <0x2>;
-			color = <9>; /* LED_COLOR_ID_RGB> */
-
-			led@4 {
-				led-cur = /bits/ 8 <12>;
-				max-cur = /bits/ 8 <15>;
-				reg = <0x4>;
-				color = <2>; /* LED_COLOR_ID_GREEN */
-			};
-
-			led@5 {
-				led-cur = /bits/ 8 <12>;
-				max-cur = /bits/ 8 <15>;
-				reg = <0x5>;
-				color = <3>; /* LED_COLOR_ID_BLUE */
-			};
-
-			led@8 {
-				led-cur = /bits/ 8 <12>;
-				max-cur = /bits/ 8 <15>;
-				reg = <0x8>;
-				color = <1>; /* LED_COLOR_ID_RED */
-			};
-		};
-	};
-
-};
-
-/*
- * pins of spi2 test as gpio */
-&ecspi2 {
-	status = "disabled";
-};
-
-&hdmi {
-	status = "disabled";
-};
-
-&mipi_dsi {
-	status = "disabled";
-};
-
-&panel_mipi_70t {
-	status = "disabled";
-};
-
-&goodix {
-	status = "disabled";
-};
-
+diff --git a/arch/arm64/boot/dts/freescale/Makefile b/arch/arm64/boot/dts/freescale/Makefile
+index 1500736333e2..4dfd577a09d2 100644
+--- a/arch/arm64/boot/dts/freescale/Makefile
++++ b/arch/arm64/boot/dts/freescale/Makefile
+@@ -130,8 +130,11 @@ dtb-$(CONFIG_ARCH_MXC) += imx8mp-phyboard-pollux-rdk.dtb
+ dtb-$(CONFIG_ARCH_MXC) += imx8mp-ab2.dtb
+ dtb-$(CONFIG_ARCH_MXC) += imx8mp-ddr4-evk.dtb
+ dtb-$(CONFIG_ARCH_MXC) += imx8mp-evk-ndm.dtb
+-dtb-$(CONFIG_ARCH_MXC) += emtop-imx8mp-baseboard-hdmi.dtb emtop-imx8mp-baseboard-mipi-dsi.dtb emtop-imx8mp-baseboard-lvds.dtb emtop-imx8mp-cm4.dtb \
+-			emtop-imx8mp-baseboard-mp.dtb
++dtb-$(CONFIG_ARCH_MXC) += emtop-imx8mp-baseboard-hdmi.dtb emtop-imx8mp-baseboard-mipi-dsi.dtb \
++			  emtop-imx8mp-baseboard-lvds.dtb emtop-imx8mp-cm4.dtb \
++			  emtop-imx8mp-ccb3.dtb emtop-imx8mp-cm1-5.dtb \
++			  emtop-imx8mp-cm2-0.dtb emtop-imx8mp-csl.dtb \
++			  emtop-imx8mp-baseboard-mp.dtb 
+ 
+ imx8mp-evk-revb4-dtbs := imx8mp-evk.dtb imx8mp-evk-revb4.dtbo
+ imx8mp-evk-revb4-rm67191-dtbs := imx8mp-evk-rm67191.dtb imx8mp-evk-revb4.dtbo
+diff --git a/arch/arm64/boot/dts/freescale/emtop-imx8mp-ccb3.dts b/arch/arm64/boot/dts/freescale/emtop-imx8mp-ccb3.dts
+new file mode 100644
+index 000000000000..025b96c2f8e2
+--- /dev/null
++++ b/arch/arm64/boot/dts/freescale/emtop-imx8mp-ccb3.dts
+@@ -0,0 +1,544 @@
++#include "emtop-imx8mp-baseboard-hdmi.dts"
++
++&pinctrl_hog {
++	fsl,pins = <
++		MX8MP_IOMUXC_ECSPI2_SCLK__GPIO5_IO10		0x19
++		MX8MP_IOMUXC_ECSPI2_MOSI__GPIO5_IO11		0x19
++		MX8MP_IOMUXC_ECSPI2_MISO__GPIO5_IO12		0x19
++		MX8MP_IOMUXC_ECSPI2_SS0__GPIO5_IO13		0x19
++	>;
++};
++
++// &pinctrl_uart2 {
++// 	fsl,pins = <
++// 		MX8MP_IOMUXC_UART2_RXD__GPIO5_IO24	0x19
++// 		MX8MP_IOMUXC_UART2_TXD__GPIO5_IO25	0x19
++// 	>;
++// };
++
++
++&iomuxc {
++	pinctrl_uart4: uart4grp {
++		fsl,pins = <
++			MX8MP_IOMUXC_UART4_RXD__GPIO5_IO28	0x19
++			MX8MP_IOMUXC_UART4_TXD__GPIO5_IO29	0x19
++		>;
++	};
++};
++
++/ {
++	model = "NXP i.MX8MPlus emtop-CCB3 IO board";
++	compatible = "fsl,imx8mp-evk", "fsl,imx8mp";
++
++	aliases {
++		rtc0 = &snvs_rtc;
++		rtc1 = &pcf85063;
++	};
++
++	gpio-leds {
++		act_led: sys {
++			label = "led0";
++			linux,default-trigger = "mmc0";
++			gpios = <&gpio3 16 GPIO_ACTIVE_HIGH>;
++		};
++
++                /* pwr_led pin (95) is "reserved" in Emtop SOM-IMX8 */
++
++		/* usb1_pwren gpio conflicts with MCU_RH_GPIO */
++		usb1_pwren: usb1_pwren {
++			label = "usb1_pwren";
++			/delete-property/ linux,default-trigger;
++			/delete-property/ gpios;
++		};
++
++		sta_led: sta {
++			label = "led1";
++			linux,default-trigger = "gpio";
++			gpios = <&gpio1 6 GPIO_ACTIVE_HIGH>;
++		};
++
++		ap_led: ap {
++			label = "led2";
++			linux,default-trigger = "gpio";
++			gpios = <&gpio4 31 GPIO_ACTIVE_HIGH>;
++		};
++	};
++};
++
++&gpio1 { /* gpiochip0 */
++	gpio-line-names =
++		/* 0*/ "unnamed",
++		/* 1*/ "unnamed",
++		/* 2*/ "unnamed",
++		/* 3*/ "unnamed",
++		/* 4*/ "unnamed",
++		/* 5*/ "unnamed",
++		/* 6*/ "unnamed",
++		/* 7*/ "MCU_RH_GPIO2",
++		/* 8*/ "unnamed",
++		/* 9*/ "unnamed",
++		/*10*/ "unnamed",
++		/*11*/ "unnamed",
++		/*12*/ "unnamed",
++		/*13*/ "unnamed",
++		/*14*/ "unnamed",
++		/*15*/ "unnamed",
++		/*16*/ "unnamed",
++		/*17*/ "unnamed",
++		/*18*/ "unnamed",
++		/*19*/ "unnamed",
++		/*20*/ "unnamed",
++		/*21*/ "unnamed",
++		/*22*/ "unnamed",
++		/*23*/ "unnamed",
++		/*24*/ "unnamed",
++		/*25*/ "unnamed",
++		/*26*/ "unnamed",
++		/*27*/ "unnamed",
++		/*28*/ "unnamed",
++		/*29*/ "unnamed",
++		/*30*/ "unnamed",
++		/*31*/ "unnamed";
++};
++
++&gpio2 { /* gpiochip1 */
++	gpio-line-names =
++		/* 0*/ "unnamed",
++		/* 1*/ "unnamed",
++		/* 2*/ "unnamed",
++		/* 3*/ "unnamed",
++		/* 4*/ "unnamed",
++		/* 5*/ "unnamed",
++		/* 6*/ "unnamed",
++		/* 7*/ "unnamed",
++		/* 8*/ "unnamed",
++		/* 9*/ "unnamed",
++		/*10*/ "unnamed",
++		/*11*/ "unnamed",
++		/*12*/ "unnamed",
++		/*13*/ "unnamed",
++		/*14*/ "unnamed",
++		/*15*/ "unnamed",
++		/*16*/ "unnamed",
++		/*17*/ "unnamed",
++		/*18*/ "unnamed",
++		/*19*/ "unnamed",
++		/*20*/ "GPIO17",
++		/*21*/ "unnamed",
++		/*22*/ "unnamed",
++		/*23*/ "unnamed",
++		/*24*/ "unnamed",
++		/*25*/ "unnamed",
++		/*26*/ "unnamed",
++		/*27*/ "unnamed",
++		/*28*/ "unnamed",
++		/*29*/ "unnamed",
++		/*30*/ "unnamed",
++		/*31*/ "unnamed";
++};
++
++&gpio3 { /* gpiochip2 */
++	gpio-line-names =
++		/* 0*/ "unnamed",
++		/* 1*/ "unnamed",
++		/* 2*/ "unnamed",
++		/* 3*/ "unnamed",
++		/* 4*/ "unnamed",
++		/* 5*/ "unnamed",
++		/* 6*/ "unnamed",
++		/* 7*/ "unnamed",
++		/* 8*/ "unnamed",
++		/* 9*/ "unnamed",
++		/*10*/ "unnamed",
++		/*11*/ "unnamed",
++		/*12*/ "unnamed",
++		/*13*/ "unnamed",
++		/*14*/ "unnamed",
++		/*15*/ "unnamed",
++		/*16*/ "unnamed",
++		/*17*/ "unnamed",
++		/*18*/ "unnamed",
++		/*19*/ "unnamed",
++		/*20*/ "unnamed",
++		/*21*/ "unnamed",
++		/*22*/ "unnamed",
++		/*23*/ "unnamed",
++		/*24*/ "unnamed",
++		/*25*/ "unnamed",
++		/*26*/ "unnamed",
++		/*27*/ "unnamed",
++		/*28*/ "unnamed",
++		/*29*/ "unnamed",
++		/*30*/ "unnamed",
++		/*31*/ "unnamed";
++};
++
++&gpio4 { /* gpiochip3 */
++	gpio-line-names =
++		/* 0*/ "unnamed",
++		/* 1*/ "unnamed",
++		/* 2*/ "unnamed",
++		/* 3*/ "unnamed",
++		/* 4*/ "unnamed",
++		/* 5*/ "unnamed",
++		/* 6*/ "unnamed",
++		/* 7*/ "unnamed",
++		/* 8*/ "unnamed",
++		/* 9*/ "unnamed",
++		/*10*/ "unnamed",
++		/*11*/ "unnamed",
++		/*12*/ "unnamed",
++		/*13*/ "unnamed",
++		/*14*/ "unnamed",
++		/*15*/ "unnamed",
++		/*16*/ "unnamed",
++		/*17*/ "unnamed",
++		/*18*/ "unnamed",
++		/*19*/ "unnamed",
++		/*20*/ "unnamed",
++		/*21*/ "unnamed",
++		/*22*/ "mPCIe_STATUS",
++		/*23*/ "unnamed",
++		/*24*/ "unnamed",
++		/*25*/ "unnamed",
++		/*26*/ "unnamed",
++		/*27*/ "GPIO27",
++		/*28*/ "GPIO16",
++		/*29*/ "GPIO26",
++		/*30*/ "FG_ALERT",
++		/*31*/ "IO_EXT_INT";
++};
++
++&gpio5 { /* gpiochip4 */
++	gpio-line-names =
++		/* 0*/ "MCU_RH_GPIO1",
++		/* 1*/ "PD_INTB",
++		/* 2*/ "mPCIe_COEX1",
++		/* 3*/ "unnamed",
++		/* 4*/ "unnamed",
++		/* 5*/ "mPCIe_COEX2",
++		/* 6*/ "mPCIe_SPI_CLK",
++		/* 7*/ "mPCIe_SPI_MOSI",
++		/* 8*/ "mPCIe_SPI_MISO",
++		/* 9*/ "mPCIe_SPI_CS",
++		/*10*/ "MCU_SPI_CLK",
++		/*11*/ "MCU_SPI_MOSI",
++		/*12*/ "MCU_SPI_MISO",
++		/*13*/ "MCU_SPI_CS",
++		/*14*/ "unnamed",
++		/*15*/ "unnamed",
++		/*16*/ "unnamed",
++		/*17*/ "unnamed",
++		/*18*/ "unnamed",
++		/*19*/ "unnamed",
++		/*20*/ "unnamed",
++		/*21*/ "unnamed",
++		/*22*/ "unnamed",
++		/*23*/ "unnamed",
++		/*24*/ "unnamed",
++		/*25*/ "unnamed",
++		/*26*/ "unnamed",
++		/*27*/ "unnamed",
++		/*28*/ "RH_COEX1",
++		/*29*/ "RH_COEX2",
++		/*30*/ "unnamed",
++		/*31*/ "unnamed";
++};
++
++/* ### CM4IO Based Comms Devices ### */
++&i2c5 {
++	expander_dcb2b: pcal6408@21 {
++		compatible = "nxp,pcal6408";
++		reg = <0x21>;
++		gpio-controller;
++		#gpio-cells = <2>;
++		gpio-line-names = "nrf52_pwr_en",
++				"nrf52_reset",
++				"subghz_pwr_en",
++				"subghz_rst",
++				"nrf52_dfu";
++	};
++};
++
++&i2c3 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_i2c3>;
++	status = "okay";
++
++	/* Conflicts with lp5523 */
++	/delete-node/ rtc@32;
++
++	rx8025t: rtc@51 {
++		compatible = "epson,rx8025t";
++		reg = <0x51>;
++	};
++	
++	pcf85063: pcf85063@51 {
++		compatible = "nxp,pcf85063";
++		reg = <0x51>;
++	};
++
++	MAX1726x@36 {
++		compatible  = "maxim,MAX1726x";
++		status              = "okay";
++		reg                 = <0x36>;
++
++		interrupt-parent    = <&gpio4>;
++		interrupts          = <30 IRQ_TYPE_EDGE_FALLING>;
++
++
++		rsense          = <5>;/* 5 miliOhm */
++		model-option    = <1>;	/* 1: EZ Model, 2: Custom INI without model table
++					3: Custom INI with custom model table */
++
++		talrt-min   = <0>;          /* DegreeC */
++		talrt-max   = <90>;         /* DegreeC */
++		valrt-min   = <3450>;       /* mV */
++		valrt-max   = <4300>;       /* mV */
++		salrt-min   = <1>;          /* Percent */
++		salrt-max   = <99>;         /* Percent */
++		ialrt-min   = <(-4500)>;    /* mA */
++		ialrt-max   = <4500>;       /* mA */
++
++
++		/*** INI parameters ***/
++		/* Option 1/2/3 */
++		designcap   = /bits/ 16 <0x1388>; /* 5000 mAh */
++		ichgterm    = /bits/ 16 <0x0320>; /* x * 0.31250mA = 250mA => 800dec => 0x320*/
++		vempty      = /bits/ 16 <0xA561>; /* 3300 mV */
++		vcharge     = <4208>; /* 4208mV */
++
++		/* Option 2/3 */
++		learncfg    = /bits/ 16 <0xC482>;
++		rcomp0      = /bits/ 16 <0x0070>;
++		tempco      = /bits/ 16 <0x223E>;
++		qrtable00   = /bits/ 16 <0x1050>;
++		qrtable10   = /bits/ 16 <0x2013>;
++		qrtable20   = /bits/ 16 <0x0B04>;
++		qrtable30   = /bits/ 16 <0x0885>;
++
++		/* Option 2 */
++		dpacc       = /bits/ 16 <0x0C80>;
++		modelcfg    = /bits/ 16 <0x8000>;
++
++		/* Option 3 */
++		relaxcfg    = /bits/ 16 <0x2039>;
++		config      = /bits/ 16 <0x2314>;
++		config2     = /bits/ 16 <0x064F>;
++		fullsocthr  = /bits/ 16 <0x5F05>;
++		tgain       = /bits/ 16 <0xEE56>;
++		toff        = /bits/ 16 <0x1DA4>;
++		curve       = /bits/ 16 <0x0025>;
++		model-data  = /bits/ 16 <
++		/* OCV Table */
++		0x9760 0xa510 0xb100 0xb600 0xb7a0 0xb900 0xba70 0xbc70
++		0xbde0 0xbfc0 0xc250 0xc510 0xc990 0xcea0 0xd040 0xd750
++		/* X Table */
++		0x0060 0x0120 0x0240 0x0d80 0x08b0 0x0590 0x1200 0x3210
++		0x0ee0 0x0a40 0x0950 0x08e0 0x0800 0x0780 0x06b0 0x06b0
++		/* RCompSeg Table */
++		0x0100 0x0100 0x0100 0x0100 0x0100 0x0100 0x0100 0x0100
++		0x0100 0x0100 0x0100 0x0100 0x0100 0x0100 0x0100 0x0100
++		>;
++	};
++
++	max77958@27 {
++		compatible  = "maxim,max77958";
++		status = "okay";
++		reg = <0x27>;
++
++		interrupts-parent = <&gpio5>;
++		interrupts = <1 IRQ_TYPE_EDGE_FALLING>;
++		max77958,irq-gpio  = <&gpio5 1 IRQ_TYPE_EDGE_FALLING>;
++		max77958,wakeup;
++
++		max77958-usbc {
++			compatible = "maxim,max77958-usbc";
++		};
++	};
++	
++	power_supply@41 {
++		compatible = "ti,ina226";
++		reg = <0x41>;
++		shunt-resistor = <5000>;
++	};
++
++	expander_1: pcal6408@21 {
++		compatible = "nxp,pcal6408";
++		reg = <0x21>;
++		gpio-controller;
++		#gpio-cells = <2>;
++		gpio-line-names = "poweroff_mcu",
++				"pwren_mpcie",
++				"mcu_mux_sel0",
++				"mcu_mux_sel1",
++				"mcu_otg_ctrl",
++				"pcb_ver_1",
++				"pcb_ver_2",
++				"pcb_ver_3";
++	};
++
++	expander_2: pcal6408@20 {
++		compatible = "nxp,pcal6408";
++		reg = <0x20>;
++		gpio-controller;
++		#gpio-cells = <2>;
++		gpio-line-names = "host_alert",
++				"mcu_pwr_led",
++				"reset_gnss",
++				"w_disable_mpcie",
++				"pbk_dcin_en",
++				"button1",
++				"button2",
++				"button3";
++		interrupt-controller; /* mark the node as interrupt-controller */
++		#interrupt-cells = <2>; /* pin number and flags */
++		interrupts-parent = <&gpio4>;
++		interrupts = <31 IRQ_TYPE_EDGE_FALLING>;
++	};
++
++	/* expander chip on discreet communicator mpci card for WIR module */
++	expander_dcmpcie: pca9570@24 {
++		compatible = "nxp,pca9570";
++		reg = <0x24>;
++		gpio-controller;
++		#gpio-cells = <2>;
++		gpio-line-names = "yr22_tx_cf_ext",
++				"yr22_tx_clk_ext";
++	};
++
++	bme280: bme280@76 {
++		compatible = "bosch,bme280";
++		reg = <0x76>;
++		status = "okay";
++	};
++
++	usb2517i@2c {
++		compatible = "microchip,usb2517i";
++		reg = <0x2c>;
++	};
++
++	lp5523: lp5523@32 {
++		#address-cells = <1>;
++		#size-cells = <0>;
++		compatible = "ti,lp55231";
++		label = "rgb_leds";
++		reg = <0x32>;
++		clock-mode = /bits/ 8 <0>; /* LP55XX_CLOCK_AUTO */
++
++		multi-led@0 {
++			#address-cells = <1>;
++			#size-cells = <0>;
++			reg = <0x0>;
++			color = <9>; /* LED_COLOR_ID_RGB> */
++
++			led@0 {
++				led-cur = /bits/ 8 <12>;
++				max-cur = /bits/ 8 <15>;
++				reg = <0x0>;
++				color = <2>; /* LED_COLOR_ID_GREEN */
++			};
++
++			led@1 {
++				max-cur = /bits/ 8 <15>;
++				led-cur = /bits/ 8 <12>;
++				reg = <0x1>;
++				color = <3>; /* LED_COLOR_ID_BLUE */
++			};
++
++			led@6 {
++				led-cur = /bits/ 8 <12>;
++				max-cur = /bits/ 8 <15>;
++				reg = <0x6>;
++				color = <1>; /* LED_COLOR_ID_RED */
++			};
++		};
++		multi-led@1 {
++			#address-cells = <1>;
++			#size-cells = <0>;
++			reg = <0x1>;
++			color = <9>; /* LED_COLOR_ID_RGB> */
++
++			led@2 {
++				led-cur = /bits/ 8 <12>;
++				max-cur = /bits/ 8 <15>;
++				reg = <0x2>;
++				color = <2>; /* LED_COLOR_ID_GREEN */
++			};
++
++			led@3 {
++				led-cur = /bits/ 8 <12>;
++				max-cur = /bits/ 8 <15>;
++				reg = <0x3>;
++				color = <3>; /* LED_COLOR_ID_BLUE */
++			};
++
++			led@7 {
++				led-cur = /bits/ 8 <12>;
++				max-cur = /bits/ 8 <15>;
++				reg = <0x7>;
++				color = <1>; /* LED_COLOR_ID_RED */
++			};
++		};
++		multi-led@2 {
++			#address-cells = <1>;
++			#size-cells = <0>;
++			reg = <0x2>;
++			color = <9>; /* LED_COLOR_ID_RGB> */
++
++			led@4 {
++				led-cur = /bits/ 8 <12>;
++				max-cur = /bits/ 8 <15>;
++				reg = <0x4>;
++				color = <2>; /* LED_COLOR_ID_GREEN */
++			};
++
++			led@5 {
++				led-cur = /bits/ 8 <12>;
++				max-cur = /bits/ 8 <15>;
++				reg = <0x5>;
++				color = <3>; /* LED_COLOR_ID_BLUE */
++			};
++
++			led@8 {
++				led-cur = /bits/ 8 <12>;
++				max-cur = /bits/ 8 <15>;
++				reg = <0x8>;
++				color = <1>; /* LED_COLOR_ID_RED */
++			};
++		};
++	};
++
++};
++
++/*
++ * pins of spi2 test as gpio */
++&ecspi2 {
++	status = "disabled";
++};
++
++&hdmi {
++	status = "disabled";
++};
++
++&mipi_dsi {
++	status = "disabled";
++};
++
++&panel_mipi_70t {
++	status = "disabled";
++};
++
++&goodix {
++	status = "disabled";
++};
++
++/* Conflicts with mPCIe_SPI_CLK */
++&uart3 {
++	/delete-property/ pinctrl-names;
++	/delete-property/ pinctrl-0;
++	/delete-property/ assigned-clocks;
++	/delete-property/ assigned-clock-parents;
++	/delete-property/ rts-gpios;
++	status = "disabled";
++};
+diff --git a/arch/arm64/boot/dts/freescale/emtop-imx8mp-cm1-5.dts b/arch/arm64/boot/dts/freescale/emtop-imx8mp-cm1-5.dts
+new file mode 100644
+index 000000000000..424b8a441a49
+--- /dev/null
++++ b/arch/arm64/boot/dts/freescale/emtop-imx8mp-cm1-5.dts
+@@ -0,0 +1,329 @@
++#include "emtop-imx8mp-baseboard-hdmi.dts"
++
++&pinctrl_hog {
++	fsl,pins = <
++		MX8MP_IOMUXC_ECSPI2_SCLK__GPIO5_IO10		0x19
++		MX8MP_IOMUXC_ECSPI2_MOSI__GPIO5_IO11		0x19
++		MX8MP_IOMUXC_ECSPI2_MISO__GPIO5_IO12		0x19
++		MX8MP_IOMUXC_ECSPI2_SS0__GPIO5_IO13		0x19
++	>;
++};
++
++/ {
++	model = "NXP i.MX8MPlus emtop-CM 1.5 IO board";
++	compatible = "fsl,imx8mp-evk", "fsl,imx8mp";
++
++	aliases {
++		rtc0 = &snvs_rtc;
++		rtc1 = &pcf85063;
++	};
++
++	gpio-leds {
++		act_led: sys {
++			label = "led0";
++			linux,default-trigger = "mmc0";
++			gpios = <&gpio3 16 GPIO_ACTIVE_HIGH>;
++		};
++
++                /* pwr_led pin (95) is "reserved" in Emtop SOM-IMX8 */
++
++		sta_led: sta {
++			label = "led1";
++			linux,default-trigger = "gpio";
++			gpios = <&gpio1 6 GPIO_ACTIVE_HIGH>;
++		};
++
++		ap_led: ap {
++			label = "led2";
++			linux,default-trigger = "gpio";
++			gpios = <&gpio4 31 GPIO_ACTIVE_HIGH>;
++		};
++	};
++};
++
++&gpio1 { /* gpiochip0 */
++	gpio-line-names =
++		/* 0*/ "unnamed",
++		/* 1*/ "unnamed",
++		/* 2*/ "unnamed",
++		/* 3*/ "unnamed",
++		/* 4*/ "unnamed",
++		/* 5*/ "unnamed",
++		/* 6*/ "unnamed",
++		/* 7*/ "mpcie3_gpio",
++		/* 8*/ "unnamed",
++		/* 9*/ "unnamed",
++		/*10*/ "unnamed",
++		/*11*/ "unnamed",
++		/*12*/ "unnamed",
++		/*13*/ "unnamed",
++		/*14*/ "unnamed",
++		/*15*/ "unnamed",
++		/*16*/ "unnamed",
++		/*17*/ "unnamed",
++		/*18*/ "unnamed",
++		/*19*/ "unnamed",
++		/*20*/ "unnamed",
++		/*21*/ "unnamed",
++		/*22*/ "unnamed",
++		/*23*/ "unnamed",
++		/*24*/ "unnamed",
++		/*25*/ "unnamed",
++		/*26*/ "unnamed",
++		/*27*/ "unnamed",
++		/*28*/ "unnamed",
++		/*29*/ "unnamed",
++		/*30*/ "unnamed",
++		/*31*/ "unnamed";
++};
++
++&gpio2 { /* gpiochip1 */
++	gpio-line-names =
++		/* 0*/ "unnamed",
++		/* 1*/ "unnamed",
++		/* 2*/ "unnamed",
++		/* 3*/ "unnamed",
++		/* 4*/ "unnamed",
++		/* 5*/ "unnamed",
++		/* 6*/ "unnamed",
++		/* 7*/ "unnamed",
++		/* 8*/ "unnamed",
++		/* 9*/ "unnamed",
++		/*10*/ "unnamed",
++		/*11*/ "unnamed",
++		/*12*/ "unnamed",
++		/*13*/ "unnamed",
++		/*14*/ "unnamed",
++		/*15*/ "unnamed",
++		/*16*/ "unnamed",
++		/*17*/ "unnamed",
++		/*18*/ "unnamed",
++		/*19*/ "unnamed",
++		/*20*/ "nrf52_coex2",
++		/*21*/ "unnamed",
++		/*22*/ "unnamed",
++		/*23*/ "unnamed",
++		/*24*/ "unnamed",
++		/*25*/ "unnamed",
++		/*26*/ "unnamed",
++		/*27*/ "unnamed",
++		/*28*/ "unnamed",
++		/*29*/ "unnamed",
++		/*30*/ "unnamed",
++		/*31*/ "unnamed";
++};
++
++&gpio3 { /* gpiochip2 */
++	gpio-line-names =
++		/* 0*/ "unnamed",
++		/* 1*/ "unnamed",
++		/* 2*/ "unnamed",
++		/* 3*/ "unnamed",
++		/* 4*/ "unnamed",
++		/* 5*/ "unnamed",
++		/* 6*/ "unnamed",
++		/* 7*/ "unnamed",
++		/* 8*/ "unnamed",
++		/* 9*/ "unnamed",
++		/*10*/ "unnamed",
++		/*11*/ "unnamed",
++		/*12*/ "unnamed",
++		/*13*/ "unnamed",
++		/*14*/ "unnamed",
++		/*15*/ "unnamed",
++		/*16*/ "unnamed",
++		/*17*/ "unnamed",
++		/*18*/ "unnamed",
++		/*19*/ "unnamed",
++		/*20*/ "unnamed",
++		/*21*/ "unnamed",
++		/*22*/ "unnamed",
++		/*23*/ "unnamed",
++		/*24*/ "unnamed",
++		/*25*/ "unnamed",
++		/*26*/ "unnamed",
++		/*27*/ "unnamed",
++		/*28*/ "unnamed",
++		/*29*/ "unnamed",
++		/*30*/ "unnamed",
++		/*31*/ "unnamed";
++};
++
++&gpio4 { /* gpiochip3 */
++	gpio-line-names =
++		/* 0*/ "unnamed",
++		/* 1*/ "unnamed",
++		/* 2*/ "unnamed",
++		/* 3*/ "unnamed",
++		/* 4*/ "unnamed",
++		/* 5*/ "mpcie5_coex2",
++		/* 6*/ "unnamed",
++		/* 7*/ "unnamed",
++		/* 8*/ "unnamed",
++		/* 9*/ "unnamed",
++		/*10*/ "unnamed",
++		/*11*/ "unnamed",
++		/*12*/ "unnamed",
++		/*13*/ "unnamed",
++		/*14*/ "unnamed",
++		/*15*/ "unnamed",
++		/*16*/ "unnamed",
++		/*17*/ "unnamed",
++		/*18*/ "unnamed",
++		/*19*/ "unnamed",
++		/*20*/ "unnamed",
++		/*21*/ "unnamed",
++		/*22*/ "mux_2",
++		/*23*/ "unnamed",
++		/*24*/ "unnamed",
++		/*25*/ "unnamed",
++		/*26*/ "unnamed",
++		/*27*/ "mpcie3_coex1",
++		/*28*/ "nrf52_coex1",
++		/*29*/ "mux_3",
++		/*30*/ "nrf53_coex1",
++		/*31*/ "aux_ioexp_int";
++};
++
++&gpio5 { /* gpiochip4 */
++	gpio-line-names =
++		/* 0*/ "mpcie3_spi_rst",
++		/* 1*/ "nrf53_coex2",
++		/* 2*/ "mpcie5_coex1",
++		/* 3*/ "unnamed",
++		/* 4*/ "unnamed",
++		/* 5*/ "unnamed",
++		/* 6*/ "unnamed",
++		/* 7*/ "unnamed",
++		/* 8*/ "unnamed",
++		/* 9*/ "unnamed",
++		/*10*/ "unnamed",
++		/*11*/ "unnamed",
++		/*12*/ "unnamed",
++		/*13*/ "unnamed",
++		/*14*/ "unnamed",
++		/*15*/ "unnamed",
++		/*16*/ "aux_spi_gpio",
++		/*17*/ "aux_spi_rst",
++		/*18*/ "unnamed",
++		/*19*/ "unnamed",
++		/*20*/ "unnamed",
++		/*21*/ "unnamed",
++		/*22*/ "unnamed",
++		/*23*/ "unnamed",
++		/*24*/ "unnamed",
++		/*25*/ "unnamed",
++		/*26*/ "unnamed",
++		/*27*/ "unnamed",
++		/*28*/ "dcube_rpi_io1",
++		/*29*/ "mux_1",
++		/*30*/ "unnamed",
++		/*31*/ "unnamed";
++};
++
++/* ### CM4IO Based Comms Devices ### */
++&i2c5 {
++	/* CM1.5 */
++	ina226@41 {
++		compatible = "ti,ina226";
++		reg = <0x41>;
++		shunt-resistor = <5000>;
++	};
++
++	/* INA_VCC_FEM */
++	ina231@45 {
++		compatible = "ti,ina231";
++		reg = <0x45>;
++		shunt-resistor = <33000>;
++	};
++
++	/* INA_VCC_3V3 */
++	ina231@44 {
++		compatible = "ti,ina231";
++		reg = <0x44>;
++		shunt-resistor = <100000>;
++	};
++};
++
++&i2c3 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_i2c3>;
++	status = "okay";
++
++	pcf85063: pcf85063@51 {
++		compatible = "nxp,pcf85063";
++		reg = <0x51>;
++	};
++
++	fanctrl: emc2305@4d {
++		compatible = "microchip,emc2305";
++		reg = <0x4d>;
++
++		#cooling-cells = <0x02>;
++
++		fan@0 {
++			min-rpm = /bits/ 16 <50>;
++			max-rpm = /bits/ 16 <5500>;
++		};
++	};
++
++	tmp100@49 {
++		compatible = "ti,tmp100";
++		reg = <0x49>;
++	};
++
++	/* ina231 is also used for ina209 */
++	ina231@40 {
++		compatible = "ti,ina231";
++		reg = <0x40>;
++		shunt-resistor = <33000>;
++	};
++
++	/* ina231 is also used for ina209 */
++	ina231@45 {
++		compatible = "ti,ina231";
++		reg = <0x45>;
++		shunt-resistor = <33000>;
++	};
++
++	/* available in Sleeve wing board */
++	tmp100@4f {
++		compatible = "ti,tmp100";
++		reg = <0x4f>;
++	};
++
++	/* CM1.5 */
++	expander: gpio@24 {
++		compatible = "nxp,pca9570";
++		reg = <0x24>;
++		gpio-controller;
++		#gpio-cells = <2>;
++		gpio-line-names = "poweroff",
++				"j701",
++				"j702",
++				"nrf52_rst";
++	};
++};
++
++/*
++ * pins of spi2 test as gpio */
++&ecspi2 {
++	status = "disabled";
++};
++
++&hdmi {
++	status = "disabled";
++};
++
++&mipi_dsi {
++	status = "disabled";
++};
++
++&panel_mipi_70t {
++	status = "disabled";
++};
++
++&goodix {
++	status = "disabled";
++};
++
+diff --git a/arch/arm64/boot/dts/freescale/emtop-imx8mp-cm2-0.dts b/arch/arm64/boot/dts/freescale/emtop-imx8mp-cm2-0.dts
+new file mode 100644
+--- /dev/null
++++ b/arch/arm64/boot/dts/freescale/emtop-imx8mp-cm2-0.dts
+@@ -0,0 +1,514 @@
++#include "emtop-imx8mp-baseboard-hdmi.dts"
++
++&pinctrl_hog {
++	fsl,pins = <
++		MX8MP_IOMUXC_ECSPI2_SCLK__GPIO5_IO10		0x19
++		MX8MP_IOMUXC_ECSPI2_MOSI__GPIO5_IO11		0x19
++		MX8MP_IOMUXC_ECSPI2_MISO__GPIO5_IO12		0x19
++		MX8MP_IOMUXC_ECSPI2_SS0__GPIO5_IO13		0x19
++	>;
++};
++
++/ {
++	model = "NXP i.MX8MPlus emtop-CM 2.0 IO board";
++	compatible = "fsl,imx8mp-evk", "fsl,imx8mp";
++
++	aliases {
++		rtc0 = &snvs_rtc;
++		rtc1 = &pcf85063;
++	};
++
++	gpio-leds {
++		act_led: sys {
++			label = "led0";
++			linux,default-trigger = "mmc0";
++			gpios = <&gpio3 16 GPIO_ACTIVE_HIGH>;
++		};
++
++                /* pwr_led pin (95) is "reserved" in Emtop SOM-IMX8 */
++
++		sta_led: sta {
++			label = "led1";
++			linux,default-trigger = "gpio";
++			gpios = <&gpio1 6 GPIO_ACTIVE_HIGH>;
++		};
++
++		ap_led: ap {
++			label = "led2";
++			linux,default-trigger = "gpio";
++			gpios = <&gpio4 31 GPIO_ACTIVE_HIGH>;
++		};
++	};
++};
++
++&gpio1 { /* gpiochip0 */
++	gpio-line-names =
++		/* 0*/ "unnamed",
++		/* 1*/ "unnamed",
++		/* 2*/ "unnamed",
++		/* 3*/ "unnamed",
++		/* 4*/ "unnamed",
++		/* 5*/ "unnamed",
++		/* 6*/ "unnamed",
++		/* 7*/ "mpcie3_gpio",
++		/* 8*/ "unnamed",
++		/* 9*/ "unnamed",
++		/*10*/ "unnamed",
++		/*11*/ "unnamed",
++		/*12*/ "unnamed",
++		/*13*/ "unnamed",
++		/*14*/ "unnamed",
++		/*15*/ "unnamed",
++		/*16*/ "unnamed",
++		/*17*/ "unnamed",
++		/*18*/ "unnamed",
++		/*19*/ "unnamed",
++		/*20*/ "unnamed",
++		/*21*/ "unnamed",
++		/*22*/ "unnamed",
++		/*23*/ "unnamed",
++		/*24*/ "unnamed",
++		/*25*/ "unnamed",
++		/*26*/ "unnamed",
++		/*27*/ "unnamed",
++		/*28*/ "unnamed",
++		/*29*/ "unnamed",
++		/*30*/ "unnamed",
++		/*31*/ "unnamed";
++};
++
++&gpio2 { /* gpiochip1 */
++	gpio-line-names =
++		/* 0*/ "unnamed",
++		/* 1*/ "unnamed",
++		/* 2*/ "unnamed",
++		/* 3*/ "unnamed",
++		/* 4*/ "unnamed",
++		/* 5*/ "unnamed",
++		/* 6*/ "unnamed",
++		/* 7*/ "unnamed",
++		/* 8*/ "unnamed",
++		/* 9*/ "unnamed",
++		/*10*/ "unnamed",
++		/*11*/ "unnamed",
++		/*12*/ "unnamed",
++		/*13*/ "unnamed",
++		/*14*/ "unnamed",
++		/*15*/ "unnamed",
++		/*16*/ "unnamed",
++		/*17*/ "unnamed",
++		/*18*/ "unnamed",
++		/*19*/ "unnamed",
++		/*20*/ "nrf52_coex2",
++		/*21*/ "unnamed",
++		/*22*/ "unnamed",
++		/*23*/ "unnamed",
++		/*24*/ "unnamed",
++		/*25*/ "unnamed",
++		/*26*/ "unnamed",
++		/*27*/ "unnamed",
++		/*28*/ "unnamed",
++		/*29*/ "unnamed",
++		/*30*/ "unnamed",
++		/*31*/ "unnamed";
++};
++
++&gpio3 { /* gpiochip2 */
++	gpio-line-names =
++		/* 0*/ "unnamed",
++		/* 1*/ "unnamed",
++		/* 2*/ "unnamed",
++		/* 3*/ "unnamed",
++		/* 4*/ "unnamed",
++		/* 5*/ "unnamed",
++		/* 6*/ "unnamed",
++		/* 7*/ "unnamed",
++		/* 8*/ "unnamed",
++		/* 9*/ "unnamed",
++		/*10*/ "unnamed",
++		/*11*/ "unnamed",
++		/*12*/ "unnamed",
++		/*13*/ "unnamed",
++		/*14*/ "unnamed",
++		/*15*/ "unnamed",
++		/*16*/ "unnamed",
++		/*17*/ "unnamed",
++		/*18*/ "unnamed",
++		/*19*/ "unnamed",
++		/*20*/ "unnamed",
++		/*21*/ "unnamed",
++		/*22*/ "unnamed",
++		/*23*/ "unnamed",
++		/*24*/ "unnamed",
++		/*25*/ "unnamed",
++		/*26*/ "unnamed",
++		/*27*/ "unnamed",
++		/*28*/ "unnamed",
++		/*29*/ "unnamed",
++		/*30*/ "unnamed",
++		/*31*/ "unnamed";
++};
++
++&gpio4 { /* gpiochip3 */
++	gpio-line-names =
++		/* 0*/ "unnamed",
++		/* 1*/ "unnamed",
++		/* 2*/ "unnamed",
++		/* 3*/ "unnamed",
++		/* 4*/ "unnamed",
++		/* 5*/ "mpcie5_coex2",
++		/* 6*/ "unnamed",
++		/* 7*/ "unnamed",
++		/* 8*/ "unnamed",
++		/* 9*/ "unnamed",
++		/*10*/ "unnamed",
++		/*11*/ "unnamed",
++		/*12*/ "unnamed",
++		/*13*/ "unnamed",
++		/*14*/ "unnamed",
++		/*15*/ "unnamed",
++		/*16*/ "unnamed",
++		/*17*/ "unnamed",
++		/*18*/ "unnamed",
++		/*19*/ "unnamed",
++		/*20*/ "unnamed",
++		/*21*/ "unnamed",
++		/*22*/ "mux_2",
++		/*23*/ "unnamed",
++		/*24*/ "unnamed",
++		/*25*/ "unnamed",
++		/*26*/ "unnamed",
++		/*27*/ "mpcie3_coex1",
++		/*28*/ "nrf52_coex1",
++		/*29*/ "mux_3",
++		/*30*/ "nrf53_coex1",
++		/*31*/ "aux_ioexp_int";
++};
++
++&gpio5 { /* gpiochip4 */
++	gpio-line-names =
++		/* 0*/ "mpcie3_spi_rst",
++		/* 1*/ "nrf53_coex2",
++		/* 2*/ "mpcie5_coex1",
++		/* 3*/ "unnamed",
++		/* 4*/ "unnamed",
++		/* 5*/ "unnamed",
++		/* 6*/ "unnamed",
++		/* 7*/ "unnamed",
++		/* 8*/ "unnamed",
++		/* 9*/ "unnamed",
++		/*10*/ "unnamed",
++		/*11*/ "unnamed",
++		/*12*/ "unnamed",
++		/*13*/ "unnamed",
++		/*14*/ "unnamed",
++		/*15*/ "unnamed",
++		/*16*/ "aux_spi_gpio",
++		/*17*/ "aux_spi_rst",
++		/*18*/ "unnamed",
++		/*19*/ "unnamed",
++		/*20*/ "unnamed",
++		/*21*/ "unnamed",
++		/*22*/ "unnamed",
++		/*23*/ "unnamed",
++		/*24*/ "unnamed",
++		/*25*/ "unnamed",
++		/*26*/ "unnamed",
++		/*27*/ "unnamed",
++		/*28*/ "dcube_rpi_io1",
++		/*29*/ "mux_1",
++		/*30*/ "unnamed",
++		/*31*/ "unnamed";
++};
++
++/* ### CM4IO Based Comms Devices ### */
++&i2c5 {
++	/* CM2.0 */
++	expander_3: pcal6408@21 {
++		compatible = "nxp,pcal6408";
++		reg = <0x21>;
++		gpio-controller;
++		/* TODO interrupt-parent = <&gpio>; */
++		/* TODO interrupts = <19 IRQ_TYPE_EDGE_FALLING>; */
++		#gpio-cells = <2>;
++		gpio-line-names = "aux_io_0_button",
++				"aux_io_1_button",
++				"aux_io_2_button",
++				"aux_io_3",
++				"aux_io_4",
++				"aux_test_point",
++				"eth_int",
++				"rpi_pwr_rgb";
++	};
++
++	/* CM2.0 UI board */
++	tmp100@49 {
++		compatible = "ti,tmp100";
++		reg = <0x49>;
++	};
++
++};
++
++&i2c3 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_i2c3>;
++	status = "okay";
++
++	pcf85063: pcf85063@51 {
++		compatible = "nxp,pcf85063";
++		reg = <0x51>;
++	};
++
++	fanctrl: emc2305@4d {
++		compatible = "microchip,emc2305";
++		reg = <0x4d>;
++
++		#cooling-cells = <0x02>;
++
++		fan@0 {
++			min-rpm = /bits/ 16 <50>;
++			max-rpm = /bits/ 16 <5500>;
++		};
++	};
++
++	tmp100@49 {
++		compatible = "ti,tmp100";
++		reg = <0x49>;
++	};
++
++	/* ina231 is also used for ina209 */
++	ina231@40 {
++		compatible = "ti,ina231";
++		reg = <0x40>;
++		shunt-resistor = <33000>;
++	};
++
++	/* ina231 is also used for ina209 */
++	ina231@45 {
++		compatible = "ti,ina231";
++		reg = <0x45>;
++		shunt-resistor = <33000>;
++	};
++
++	/* CM2.0 */
++	power_supply@41 {
++		compatible = "ti,ina226";
++		reg = <0x41>;
++		shunt-resistor = <5000>;
++	};
++
++	nrf@44 {
++		compatible = "ti,ina231";
++		reg = <0x44>;
++		shunt-resistor = <100000>;
++	};
++
++	mpcie3@46 {
++		compatible = "ti,ina231";
++		reg = <0x46>;
++		shunt-resistor = <33000>;
++	};
++
++	expander_1: pcal6408@21 {
++		compatible = "nxp,pcal6408";
++		reg = <0x21>;
++		gpio-controller;
++		#gpio-cells = <2>;
++		gpio-line-names = "poweroff",
++				"test_point",
++				"nrf52_dfu_mode",
++				"nrf53_dfu_mode",
++				"usb3_pwr_en",
++				"pcb_ver_1",
++				"pcb_ver_2",
++				"pcb_ver_3";
++	};
++
++	expander_2: pcal6408@20 {
++		compatible = "nxp,pcal6408";
++		reg = <0x20>;
++		gpio-controller;
++		#gpio-cells = <2>;
++		gpio-line-names = "nrf_usb_hub_reset",
++				"nrf_uart_hub_reset",
++				"nrf52_reset",
++				"nrf52_en",
++				"nrf53_reset",
++				"nrf53_en",
++				"eth_switch_reset",
++				"aux_board_det";
++		interrupt-controller; /* mark the node as interrupt-controller */
++		#interrupt-cells = <2>; /* pin number and flags */
++		interrupts = <19 IRQ_TYPE_EDGE_FALLING>;
++	};
++
++	switch: switch@5f {
++		compatible = "microchip,ksz9477";
++		reg = <0x5f>;
++		status = "okay";
++		/* interrupts-parent = <&expander_2>; todo
++		interrupts = <6 IRQ_TYPE_EDGE_FALLING>; */
++		ports {
++			#address-cells = <1>;
++			#size-cells = <0>;
++
++			lan1: port@0 {
++				reg = <0>;
++				label = "lan3";
++				local-mac-address = [00 00 00 00 00 00];
++			};
++
++			lan2: port@1 {
++				reg = <1>;
++				label = "lan2";
++				local-mac-address = [00 00 00 00 00 00];
++			};
++                       lan3: port@2 {
++                               reg = <2>;
++                               label = "lan1";
++                               local-mac-address = [00 00 00 00 00 00];
++                       };
++			port@3 {
++				reg = <3>;
++				label = "cpu";
++				ethernet = <&eqos>;
++				phy-mode = "rgmii-id";
++				fixed-link {
++					speed = <1000>;
++					full-duplex;
++				};
++			};
++		};
++	};
++
++	bme280: bme280@76 {
++		compatible = "bosch,bme280";
++		reg = <0x76>;
++		status = "okay";
++	};
++
++	usb2517i@2c {
++		compatible = "microchip,usb2517i";
++		reg = <0x2c>;
++	};
++
++	/* rx8025t has to be disabled here to override its definition in emtop-imx8mp-baseboard-hdmi.dts.
++	   Otherwise probing lp5523 will fail, because they share same I2C slave address 0x32. */
++	rx8025t: rtc@32 {
++		status = "disabled";
++	};
++
++	lp5523: lp5523@32 {
++		#address-cells = <1>;
++		#size-cells = <0>;
++		compatible = "ti,lp55231";
++		label = "rgb_leds";
++		reg = <0x32>;
++		clock-mode = /bits/ 8 <0>; /* LP55XX_CLOCK_AUTO */
++
++		multi-led@0 {
++			#address-cells = <1>;
++			#size-cells = <0>;
++			reg = <0x0>;
++			color = <9>; /* LED_COLOR_ID_RGB> */
++
++			led@0 {
++				led-cur = /bits/ 8 <12>;
++				max-cur = /bits/ 8 <15>;
++				reg = <0x0>;
++				color = <2>; /* LED_COLOR_ID_GREEN */
++			};
++
++			led@1 {
++				max-cur = /bits/ 8 <15>;
++				led-cur = /bits/ 8 <12>;
++				reg = <0x1>;
++				color = <3>; /* LED_COLOR_ID_BLUE */
++			};
++
++			led@6 {
++				led-cur = /bits/ 8 <12>;
++				max-cur = /bits/ 8 <15>;
++				reg = <0x6>;
++				color = <1>; /* LED_COLOR_ID_RED */
++			};
++		};
++		multi-led@1 {
++			#address-cells = <1>;
++			#size-cells = <0>;
++			reg = <0x1>;
++			color = <9>; /* LED_COLOR_ID_RGB> */
++
++			led@2 {
++				led-cur = /bits/ 8 <12>;
++				max-cur = /bits/ 8 <15>;
++				reg = <0x2>;
++				color = <2>; /* LED_COLOR_ID_GREEN */
++			};
++
++			led@3 {
++				led-cur = /bits/ 8 <12>;
++				max-cur = /bits/ 8 <15>;
++				reg = <0x3>;
++				color = <3>; /* LED_COLOR_ID_BLUE */
++			};
++
++			led@7 {
++				led-cur = /bits/ 8 <12>;
++				max-cur = /bits/ 8 <15>;
++				reg = <0x7>;
++				color = <1>; /* LED_COLOR_ID_RED */
++			};
++		};
++		multi-led@2 {
++			#address-cells = <1>;
++			#size-cells = <0>;
++			reg = <0x2>;
++			color = <9>; /* LED_COLOR_ID_RGB> */
++
++			led@4 {
++				led-cur = /bits/ 8 <12>;
++				max-cur = /bits/ 8 <15>;
++				reg = <0x4>;
++				color = <2>; /* LED_COLOR_ID_GREEN */
++			};
++
++			led@5 {
++				led-cur = /bits/ 8 <12>;
++				max-cur = /bits/ 8 <15>;
++				reg = <0x5>;
++				color = <3>; /* LED_COLOR_ID_BLUE */
++			};
++
++			led@8 {
++				led-cur = /bits/ 8 <12>;
++				max-cur = /bits/ 8 <15>;
++				reg = <0x8>;
++				color = <1>; /* LED_COLOR_ID_RED */
++			};
++		};
++	};
++
++};
++
++/*
++ * pins of spi2 test as gpio */
++&ecspi2 {
++	status = "disabled";
++};
++
++&hdmi {
++	status = "disabled";
++};
++
++&mipi_dsi {
++	status = "disabled";
++};
++
++&panel_mipi_70t {
++	status = "disabled";
++};
++
++&goodix {
++	status = "disabled";
++};
+diff --git a/arch/arm64/boot/dts/freescale/emtop-imx8mp-csl.dts b/arch/arm64/boot/dts/freescale/emtop-imx8mp-csl.dts
+new file mode 100644
+index 000000000000..589f7b395b5b
+--- /dev/null
++++ b/arch/arm64/boot/dts/freescale/emtop-imx8mp-csl.dts
+@@ -0,0 +1,405 @@
++#include "emtop-imx8mp-baseboard-hdmi.dts"
++
++&pinctrl_hog {
++	fsl,pins = <
++		MX8MP_IOMUXC_ECSPI2_SCLK__GPIO5_IO10		0x19
++		MX8MP_IOMUXC_ECSPI2_MOSI__GPIO5_IO11		0x19
++		MX8MP_IOMUXC_ECSPI2_MISO__GPIO5_IO12		0x19
++		MX8MP_IOMUXC_ECSPI2_SS0__GPIO5_IO13		0x19
++	>;
++};
++
++/ {
++	model = "NXP i.MX8MPlus emtop-CSL IO board";
++	compatible = "fsl,imx8mp-evk", "fsl,imx8mp";
++
++	aliases {
++		rtc0 = &snvs_rtc;
++		rtc1 = &pcf85063;
++	};
++
++	gpio-leds {
++		act_led: sys {
++			label = "led0";
++			linux,default-trigger = "mmc0";
++			gpios = <&gpio3 16 GPIO_ACTIVE_HIGH>;
++		};
++
++                /* pwr_led pin (95) is "reserved" in Emtop SOM-IMX8 */
++
++		sta_led: sta {
++			label = "led1";
++			linux,default-trigger = "gpio";
++			gpios = <&gpio1 6 GPIO_ACTIVE_HIGH>;
++		};
++
++		ap_led: ap {
++			label = "led2";
++			linux,default-trigger = "gpio";
++			gpios = <&gpio4 31 GPIO_ACTIVE_HIGH>;
++		};
++	};
++};
++
++&gpio1 { /* gpiochip0 */
++	gpio-line-names =
++		/* 0*/ "unnamed",
++		/* 1*/ "unnamed",
++		/* 2*/ "unnamed",
++		/* 3*/ "unnamed",
++		/* 4*/ "unnamed",
++		/* 5*/ "unnamed",
++		/* 6*/ "unnamed",
++		/* 7*/ "mpcie3_gpio",
++		/* 8*/ "unnamed",
++		/* 9*/ "unnamed",
++		/*10*/ "unnamed",
++		/*11*/ "unnamed",
++		/*12*/ "unnamed",
++		/*13*/ "unnamed",
++		/*14*/ "unnamed",
++		/*15*/ "unnamed",
++		/*16*/ "unnamed",
++		/*17*/ "unnamed",
++		/*18*/ "unnamed",
++		/*19*/ "unnamed",
++		/*20*/ "unnamed",
++		/*21*/ "unnamed",
++		/*22*/ "unnamed",
++		/*23*/ "unnamed",
++		/*24*/ "unnamed",
++		/*25*/ "unnamed",
++		/*26*/ "unnamed",
++		/*27*/ "unnamed",
++		/*28*/ "unnamed",
++		/*29*/ "unnamed",
++		/*30*/ "unnamed",
++		/*31*/ "unnamed";
++};
++
++&gpio2 { /* gpiochip1 */
++	gpio-line-names =
++		/* 0*/ "unnamed",
++		/* 1*/ "unnamed",
++		/* 2*/ "unnamed",
++		/* 3*/ "unnamed",
++		/* 4*/ "unnamed",
++		/* 5*/ "unnamed",
++		/* 6*/ "unnamed",
++		/* 7*/ "unnamed",
++		/* 8*/ "unnamed",
++		/* 9*/ "unnamed",
++		/*10*/ "unnamed",
++		/*11*/ "unnamed",
++		/*12*/ "unnamed",
++		/*13*/ "unnamed",
++		/*14*/ "unnamed",
++		/*15*/ "unnamed",
++		/*16*/ "unnamed",
++		/*17*/ "unnamed",
++		/*18*/ "unnamed",
++		/*19*/ "unnamed",
++		/*20*/ "nrf52_coex2",
++		/*21*/ "unnamed",
++		/*22*/ "unnamed",
++		/*23*/ "unnamed",
++		/*24*/ "unnamed",
++		/*25*/ "unnamed",
++		/*26*/ "unnamed",
++		/*27*/ "unnamed",
++		/*28*/ "unnamed",
++		/*29*/ "unnamed",
++		/*30*/ "unnamed",
++		/*31*/ "unnamed";
++};
++
++&gpio3 { /* gpiochip2 */
++	gpio-line-names =
++		/* 0*/ "unnamed",
++		/* 1*/ "unnamed",
++		/* 2*/ "unnamed",
++		/* 3*/ "unnamed",
++		/* 4*/ "unnamed",
++		/* 5*/ "unnamed",
++		/* 6*/ "unnamed",
++		/* 7*/ "unnamed",
++		/* 8*/ "unnamed",
++		/* 9*/ "unnamed",
++		/*10*/ "unnamed",
++		/*11*/ "unnamed",
++		/*12*/ "unnamed",
++		/*13*/ "unnamed",
++		/*14*/ "unnamed",
++		/*15*/ "unnamed",
++		/*16*/ "unnamed",
++		/*17*/ "unnamed",
++		/*18*/ "unnamed",
++		/*19*/ "unnamed",
++		/*20*/ "unnamed",
++		/*21*/ "unnamed",
++		/*22*/ "unnamed",
++		/*23*/ "unnamed",
++		/*24*/ "unnamed",
++		/*25*/ "unnamed",
++		/*26*/ "unnamed",
++		/*27*/ "unnamed",
++		/*28*/ "unnamed",
++		/*29*/ "unnamed",
++		/*30*/ "unnamed",
++		/*31*/ "unnamed";
++};
++
++&gpio4 { /* gpiochip3 */
++	gpio-line-names =
++		/* 0*/ "unnamed",
++		/* 1*/ "unnamed",
++		/* 2*/ "unnamed",
++		/* 3*/ "unnamed",
++		/* 4*/ "unnamed",
++		/* 5*/ "mpcie5_coex2",
++		/* 6*/ "unnamed",
++		/* 7*/ "unnamed",
++		/* 8*/ "unnamed",
++		/* 9*/ "unnamed",
++		/*10*/ "unnamed",
++		/*11*/ "unnamed",
++		/*12*/ "unnamed",
++		/*13*/ "unnamed",
++		/*14*/ "unnamed",
++		/*15*/ "unnamed",
++		/*16*/ "unnamed",
++		/*17*/ "unnamed",
++		/*18*/ "unnamed",
++		/*19*/ "unnamed",
++		/*20*/ "unnamed",
++		/*21*/ "unnamed",
++		/*22*/ "mux_2",
++		/*23*/ "unnamed",
++		/*24*/ "unnamed",
++		/*25*/ "unnamed",
++		/*26*/ "unnamed",
++		/*27*/ "mpcie3_coex1",
++		/*28*/ "nrf52_coex1",
++		/*29*/ "mux_3",
++		/*30*/ "nrf53_coex1",
++		/*31*/ "aux_ioexp_int";
++};
++
++&gpio5 { /* gpiochip4 */
++	gpio-line-names =
++		/* 0*/ "mpcie3_spi_rst",
++		/* 1*/ "nrf53_coex2",
++		/* 2*/ "mpcie5_coex1",
++		/* 3*/ "unnamed",
++		/* 4*/ "unnamed",
++		/* 5*/ "unnamed",
++		/* 6*/ "unnamed",
++		/* 7*/ "unnamed",
++		/* 8*/ "unnamed",
++		/* 9*/ "unnamed",
++		/*10*/ "unnamed",
++		/*11*/ "unnamed",
++		/*12*/ "unnamed",
++		/*13*/ "unnamed",
++		/*14*/ "unnamed",
++		/*15*/ "unnamed",
++		/*16*/ "aux_spi_gpio",
++		/*17*/ "aux_spi_rst",
++		/*18*/ "unnamed",
++		/*19*/ "unnamed",
++		/*20*/ "unnamed",
++		/*21*/ "unnamed",
++		/*22*/ "unnamed",
++		/*23*/ "unnamed",
++		/*24*/ "unnamed",
++		/*25*/ "unnamed",
++		/*26*/ "unnamed",
++		/*27*/ "unnamed",
++		/*28*/ "dcube_rpi_io1",
++		/*29*/ "mux_1",
++		/*30*/ "unnamed",
++		/*31*/ "unnamed";
++};
++
++/* ### CSL IO Based Comms Devices ### */
++&i2c5 {
++	/* Sleeve MiniWing 1.0 */
++	/* INA_VCC_FEM */
++	ina231@45 {
++		compatible = "ti,ina231";
++		reg = <0x45>;
++		shunt-resistor = <33000>;
++	};
++
++	/* INA_VCC_3V3 */
++	ina231@44 {
++		compatible = "ti,ina231";
++		reg = <0x44>;
++		shunt-resistor = <100000>;
++	};
++};
++
++&i2c3 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_i2c3>;
++	status = "okay";
++
++	pcf85063: pcf85063@51 {
++		compatible = "nxp,pcf85063";
++		reg = <0x51>;
++	};
++
++	fanctrl: emc2305@4d {
++		compatible = "microchip,emc2305";
++		reg = <0x4d>;
++
++		#cooling-cells = <0x02>;
++
++		fan@0 {
++			min-rpm = /bits/ 16 <50>;
++			max-rpm = /bits/ 16 <5500>;
++		};
++	};
++
++	tmp100@49 {
++		compatible = "ti,tmp100";
++		reg = <0x49>;
++	};
++
++	/* ina231 is also used for ina209 */
++	ina231@40 {
++		compatible = "ti,ina231";
++		reg = <0x40>;
++		shunt-resistor = <33000>;
++	};
++
++	/* ina231 is also used for ina209 */
++	ina231@45 {
++		compatible = "ti,ina231";
++		reg = <0x45>;
++		shunt-resistor = <33000>;
++	};
++
++	/* available in Sleeve wing board */
++	tmp100@4f {
++		compatible = "ti,tmp100";
++		reg = <0x4f>;
++	};
++
++	/* Sleeve & wing  board */
++	expander: gpio@24 {
++		compatible = "nxp,pca9570";
++		reg = <0x24>;
++		gpio-controller;
++		#gpio-cells = <2>;
++		gpio-line-names = "poweroff",
++				"j701",
++				"j702",
++				"nrf52_rst";
++	};
++
++	bq25890@6a {
++		compatible = "ti,bq25890";
++		reg = <0x6a>;
++
++		interrupt-parent = <&gpio5>;
++		interrupts = <1 IRQ_TYPE_EDGE_FALLING>;
++
++		ti,battery-regulation-voltage = <4208000>;
++		ti,charge-current = <2048000>;
++		ti,termination-current = <256000>;
++		ti,precharge-current = <128000>;
++		ti,minimum-sys-voltage = <3500000>;
++		ti,boost-voltage = <5000000>;
++		ti,boost-max-current = <1000000>;
++
++		ti,use-ilim-pin;
++		ti,thermal-regulation-threshold = <120>;
++	};
++
++	MAX1726x@36 {
++		compatible = "maxim,max1726x";
++		status = "okay";
++		reg = <0x36>;
++
++		interrupt-parent = <&gpio4>;
++		interrupts = <30 IRQ_TYPE_EDGE_FALLING>;
++
++		rsense = <5>; /* 5 miliOhm */
++		model-option = <1>; /* 1: EZ Model, 2: Custom INI without model table
++					3: Custom INI with custom model table */
++
++		talrt-min = <0>; /* DegreeC */
++		talrt-max = <50>; /* DegreeC */
++		valrt-min = <3000>; /* mV */
++		valrt-max = <4500>; /* mV */
++		salrt-min = <1>; /* Percent */
++		salrt-max = <99>; /* Percent */
++		ialrt-min = <(-5000)>; /* mA */
++		ialrt-max = <5000>; /* mA */
++
++		/*** INI parameters ***/
++		/* Option 1/2/3 */
++		designcap = /bits/ 16 <0xC1C>; /* 3100 mAh */
++		ichgterm = /bits/ 16 <0x0320>; /* x * 0.31250mA = 250mA => 800dec => 0x320*/
++		vempty = /bits/ 16 <0xA561>; /* 3300 mV */
++		vcharge = <4208>; /* 4208mV */
++
++		/* Option 2/3 */
++		learncfg = /bits/ 16 <0xC482>;
++		rcomp0 = /bits/ 16 <0x0070>;
++		tempco = /bits/ 16 <0x223E>;
++		qrtable00 = /bits/ 16 <0x1050>;
++		qrtable10 = /bits/ 16 <0x2013>;
++		qrtable20 = /bits/ 16 <0x0B04>;
++		qrtable30 = /bits/ 16 <0x0885>;
++
++		/* Option 2 */
++		dpacc = /bits/ 16 <0x0C80>;
++		modelcfg = /bits/ 16 <0x8000>;
++
++		/* Option 3 */
++		relaxcfg = /bits/ 16 <0x2039>;
++		config = /bits/ 16 <0x2314>;
++		config2 = /bits/ 16 <0x064F>;
++		fullsocthr = /bits/ 16 <0x5F05>;
++		tgain = /bits/ 16 <0xEE56>;
++		toff = /bits/ 16 <0x1DA4>;
++		curve = /bits/ 16 <0x0025>;
++		model-data = /bits/ 16 <
++			/* OCV Table */
++			0x9760 0xa510 0xb100 0xb600 0xb7a0 0xb900 0xba70 0xbc70
++			0xbde0 0xbfc0 0xc250 0xc510 0xc990 0xcea0 0xd040 0xd750
++			/* X Table */
++			0x0060 0x0120 0x0240 0x0d80 0x08b0 0x0590 0x1200 0x3210
++			0x0ee0 0x0a40 0x0950 0x08e0 0x0800 0x0780 0x06b0 0x06b0
++			/* RCompSeg Table */
++			0x0100 0x0100 0x0100 0x0100 0x0100 0x0100 0x0100 0x0100
++			0x0100 0x0100 0x0100 0x0100 0x0100 0x0100 0x0100 0x0100
++		>;
++	};
++
++};
++
++/*
++ * pins of spi2 test as gpio */
++&ecspi2 {
++	status = "disabled";
++};
++
++&hdmi {
++	status = "disabled";
++};
++
++&mipi_dsi {
++	status = "disabled";
++};
++
++&panel_mipi_70t {
++	status = "disabled";
++};
++
++&goodix {
++	status = "disabled";
++};
++
+-- 
+2.34.1
