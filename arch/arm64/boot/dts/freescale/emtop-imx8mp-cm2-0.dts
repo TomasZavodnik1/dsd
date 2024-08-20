@@ -354,7 +354,7 @@
 
 			lan3: port@0 {
 				reg = <0>;
-				label = "lan3";
+				label = "lan1";
 				local-mac-address = [00 00 00 00 00 00];
 			};
 
@@ -366,7 +366,7 @@
 
 			lan1: port@2 {
 				reg = <2>;
-				label = "lan1";
+				label = "lan3";
 				local-mac-address = [00 00 00 00 00 00];
 			};
 

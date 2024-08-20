@@ -1,6 +1,6 @@
 diff --git a/emtop-imx8mp-cm2-0.dts b/emtop-imx8mp-cm2-0.dts
 new file mode 100644
-index 000000000..d0676e229
+index 000000000..850e875ad
 --- /dev/null
 +++ b/emtop-imx8mp-cm2-0.dts
 @@ -0,0 +1,516 @@
@@ -360,7 +360,7 @@ index 000000000..d0676e229
 +
 +			lan3: port@0 {
 +				reg = <0>;
-+				label = "lan3";
++				label = "lan1";
 +				local-mac-address = [00 00 00 00 00 00];
 +			};
 +
@@ -372,7 +372,7 @@ index 000000000..d0676e229
 +
 +			lan1: port@2 {
 +				reg = <2>;
-+				label = "lan1";
++				label = "lan3";
 +				local-mac-address = [00 00 00 00 00 00];
 +			};
 +
