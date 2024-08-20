@@ -514,3 +514,4 @@
 &goodix {
 	status = "disabled";
 };
+
